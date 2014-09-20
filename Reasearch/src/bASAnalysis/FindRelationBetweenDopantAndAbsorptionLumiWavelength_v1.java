@@ -11,7 +11,7 @@ import javax.swing.text.html.HTMLDocument.HTMLReader.SpecialAction;
 import commonTool.CsvUtils;
 import commonTool.FindCombination;
 
-public class FindRelationBetweenDopantAndAbsorptionLumiWavelength {
+public class FindRelationBetweenDopantAndAbsorptionLumiWavelength_v1 {
 
 	private static Integer wavelengthResolutoin = 5;
 	private static Integer wavelengthStart = 300;

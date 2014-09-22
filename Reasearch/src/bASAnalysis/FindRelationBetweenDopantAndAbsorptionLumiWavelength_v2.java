@@ -10,9 +10,9 @@ import commonTool.FindCombination;
 
 public class FindRelationBetweenDopantAndAbsorptionLumiWavelength_v2 {
 
-	private static Integer wavelengthResolutoin = 5;
-	private static Integer wavelengthStart = 300;
-	private static Integer wavelengthEnd = 2000;
+	private static Integer wavelengthResolutoin = 50;
+	private static Integer wavelengthStart = 500;
+	private static Integer wavelengthEnd = 1000;
 	private static ArrayList<String> waveLength = new ArrayList<>();
 	private static ArrayList<String> composition = new ArrayList<>();
 
@@ -22,6 +22,7 @@ public class FindRelationBetweenDopantAndAbsorptionLumiWavelength_v2 {
 		for (int i = wavelengthStart; i <= wavelengthEnd; i = i
 				+ wavelengthResolutoin) {
 			waveLength.add(i + "");
+			System.out.println(i + " ");
 		}
 
 		// 1. read rawData From csv
@@ -39,19 +40,19 @@ public class FindRelationBetweenDopantAndAbsorptionLumiWavelength_v2 {
 
 		// 5. Output result
 
+		outputResult(correlaitonAnalysisRecordList);
+		System.out.println("over");
+
 	}
 
 	public static List<List<String>> readRawData() {
-		List<List<String>> rawData = CsvUtils
-				.read(new File(
-						"/Users/Daytona/git/Research/Reasearch/src/bASAnalysis/Ding_CSV.csv"));
-		for (List<String> listString : rawData) {
-			// System.out.println(listString.size());
-			for (String ele : listString) {
-				// System.out.print(ele + ", ");
-			}
-			// System.out.println();
-		}
+		List<List<String>> rawData = CsvUtils.read(new File(
+				"./src/bASAnalysis/test.csv"));
+		/*
+		 * for (List<String> listString : rawData) {
+		 * System.out.println(listString.size()); for (String ele : listString)
+		 * { System.out.print(ele + ", "); } System.out.println(); }
+		 */
 		return rawData;
 	}
 
@@ -117,22 +118,14 @@ public class FindRelationBetweenDopantAndAbsorptionLumiWavelength_v2 {
 													1,
 													input.get(i).get(j + 1)
 															.length()));
-							System.out.println(input.get(i).get(j) + "  " + input.get(i)
-									.get(j + 1)
-									.substring(
-											1,
-											input.get(i).get(j + 1)
-													.length()));
 							j++;
 						} else {
 							record.getLuminescenceWavelength().put(
 									input.get(i).get(j), "0");
-							System.out.println(input.get(i).get(j));
 						}
 					} else {
 						record.getLuminescenceWavelength().put(
 								input.get(i).get(j), "0");
-						System.out.println(input.get(i).get(j));
 					}
 				}
 			}
@@ -150,7 +143,7 @@ public class FindRelationBetweenDopantAndAbsorptionLumiWavelength_v2 {
 		ArrayList<CorrelationAnalysisModel> modelList = new ArrayList<>();
 		for (AbsorptionLumiRecord oneRecord : input.getRecordList()) {
 			CorrelationAnalysisModel newModel = new CorrelationAnalysisModel();
-
+			newModel.setTypeTest(oneRecord.getTestType());
 			ArrayList<String> componentList = new ArrayList<>();
 			for (String compositionObj : oneRecord.getCompositionContent()) {
 				if (compositionObj.equals("N/A")) {
@@ -174,8 +167,6 @@ public class FindRelationBetweenDopantAndAbsorptionLumiWavelength_v2 {
 				newModel.setPumpWavelength(oneRecord.getPumpWavelength());
 				for (String peakWavelength : oneRecord
 						.getLuminescenceWavelength().keySet()) {
-					System.out.println(Integer
-							.valueOf(peakWavelength));
 					newModel.getPeakWaveLength()
 							.set(findWavelengthIndex(Integer
 									.valueOf(peakWavelength)),
@@ -183,11 +174,18 @@ public class FindRelationBetweenDopantAndAbsorptionLumiWavelength_v2 {
 
 				}
 			}
+			modelList.add(newModel);
+		}
+
+		for (CorrelationAnalysisModel model : modelList) {
+			System.out.println(model.getTypeTest());
+			System.out.println(model.getDopantList().toString());
+			System.out.println(model.getPeakWaveLength().toString());
 		}
 
 		// 2. getCombination of component
 		// return the index (in component list) of the component combination
-		ArrayList<ArrayList<String>> componentCombination = new ArrayList<>();
+		ArrayList<ArrayList<String>> componentCombination = getComponentCombination();
 
 		// 3. split correlation calculation group
 		String[] testTypeList = new String[] { "A", "L" };
@@ -196,38 +194,55 @@ public class FindRelationBetweenDopantAndAbsorptionLumiWavelength_v2 {
 			oneAnalysisRecordList.setTestType(testType);
 			for (ArrayList<String> oneCombination : componentCombination) {
 				CorrelationAnalysisRecord record = new CorrelationAnalysisRecord();
-				ArrayList<String> compositionList = new ArrayList<>();
 				record.setCompositoin(getCompositionName(oneCombination));
+
 				for (CorrelationAnalysisModel model : modelList) {
-					ArrayList<String> wavelengthMatrix = new ArrayList<>();
-					wavelengthMatrix
-							.add(ifHasComposition(oneCombination, model) ? "1"
-									: "0");
-					for (String wavelength : model.getPeakWaveLength()) {
-						wavelengthMatrix.add(wavelength);
+					if (model.getTypeTest().equals(testType)) {
+						ArrayList<String> wavelengthMatrix = new ArrayList<>();
+						wavelengthMatrix.add(ifHasComposition(oneCombination,
+								model) ? "1" : "0");
+						for (String wavelength : model.getPeakWaveLength()) {
+							wavelengthMatrix.add(wavelength);
+							System.out.print(wavelength);
+						}
+						System.out.println();
+						record.getDopantWaveLengthMartrix().add(
+								wavelengthMatrix);
 					}
-					record.getDopantWaveLengthMartrix().add(wavelengthMatrix);
+					oneAnalysisRecordList.getRecordList().add(record);
 				}
-				oneAnalysisRecordList.getRecordList().add(record);
 			}
-			analysisRecordList.add(oneAnalysisRecordList);
+			if (oneAnalysisRecordList.getRecordList().size() > 0) {
+				analysisRecordList.add(oneAnalysisRecordList);
+			}
+		}
+		for (CorrelationAnalysisRecordList record : analysisRecordList) {
+			for (CorrelationAnalysisRecord oneRecord : record.getRecordList()) {
+				System.out.println(oneRecord.getCompositoin().toString());
+			}
 		}
 
 		// 4. calculate correlation coefficient
 		for (CorrelationAnalysisRecordList recordList : analysisRecordList) {
 			for (CorrelationAnalysisRecord record : recordList.getRecordList()) {
 				ArrayList<String> componentList = new ArrayList<>();
+				System.out.println(record.getDopantWaveLengthMartrix().size());
+				System.out.println(record.getDopantWaveLengthMartrix().get(0)
+						.size());
 				for (int i = 0; i < record.getDopantWaveLengthMartrix().size(); i++) {
 					componentList.add(record.getDopantWaveLengthMartrix()
 							.get(i).get(0));
 				}
-				for (int i = 1; i < record.getDopantWaveLengthMartrix().size(); i++) {
+				for (int i = 1; i < record.getDopantWaveLengthMartrix().get(0)
+						.size(); i++) {
 					ArrayList<String> waveLengthList = new ArrayList<>();
 					for (int j = 0; j < record.getDopantWaveLengthMartrix()
 							.size(); j++) {
 						waveLengthList.add(record.getDopantWaveLengthMartrix()
 								.get(j).get(i));
 					}
+					System.out.println(componentList.toString());
+					System.out.println(waveLengthList.toString());
 					Double correlaitonCoef = calculateCorrCoef(componentList,
 							waveLengthList);
 					record.getCorrelaitonCoef().add(correlaitonCoef);
@@ -251,18 +266,22 @@ public class FindRelationBetweenDopantAndAbsorptionLumiWavelength_v2 {
 	}
 
 	public static ArrayList<ArrayList<String>> getComponentCombination() {
+		Integer combinationNumber = 1;
 		ArrayList<String> componentList = new ArrayList<>();
 		for (int i = 0; i < composition.size(); i++) {
 			componentList.add(i + "");
 		}
-		ArrayList<String> rawList = FindCombination.combine(componentList, 3);
 		ArrayList<ArrayList<String>> result = new ArrayList<>();
-		for (String obj : rawList) {
-			ArrayList<String> oneList = new ArrayList<>();
-			for (String index : obj.split(" ")) {
-				oneList.add(index);
+		for (int i = 1; i <= combinationNumber; i++) {
+			ArrayList<String> rawList = FindCombination.combine(componentList,
+					i);
+			for (String obj : rawList) {
+				ArrayList<String> oneList = new ArrayList<>();
+				for (String index : obj.split(" ")) {
+					oneList.add(index);
+				}
+				result.add(oneList);
 			}
-			result.add(oneList);
 		}
 		return result;
 	}
@@ -315,9 +334,9 @@ public class FindRelationBetweenDopantAndAbsorptionLumiWavelength_v2 {
 				for (Double obj : record.getCorrelaitonCoef()) {
 					System.out.print(obj + " ");
 				}
+				System.out.println();
 			}
 		}
-		// TODO
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class CorrelationAnalysisModel {
 	
 	private String pumpWavelength;
+	private String typeTest;
 	private ArrayList<String> dopantList;
 	private ArrayList<String> peakWaveLength;
 	
@@ -25,5 +26,11 @@ public class CorrelationAnalysisModel {
 	}
 	public void setPeakWaveLength(ArrayList<String> peakWaveLength) {
 		this.peakWaveLength = peakWaveLength;
+	}
+	public String getTypeTest() {
+		return typeTest;
+	}
+	public void setTypeTest(String typeTest) {
+		this.typeTest = typeTest;
 	}
 }

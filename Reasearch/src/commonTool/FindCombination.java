@@ -28,7 +28,8 @@ public class FindCombination {
 		for (int i = 0; i < input.size(); i++) {
 			a[i] = input.get(i);
 		}
-		return (new ArrayList<>(combine(input, num)));
+		System.out.println();
+		return (new ArrayList<>(combine(a, num)));
 	}
 
 	public static List<String> combine(String[] a, int num) {

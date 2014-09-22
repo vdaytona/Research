@@ -6,9 +6,9 @@ import java.util.HashMap;
 public class CorrelationAnalysisRecord {
 	
 	private String testType;
-	private ArrayList<String> compositoin;
-	private ArrayList<ArrayList<String>> dopantWaveLengthMartrix;
-	private ArrayList<Double> correlaitonCoef;
+	private ArrayList<String> compositoin = new ArrayList<>();
+	private ArrayList<ArrayList<String>> dopantWaveLengthMartrix = new ArrayList<>();
+	private ArrayList<Double> correlaitonCoef = new ArrayList<>();
 	
 	public ArrayList<String> getCompositoin() {
 		return compositoin;

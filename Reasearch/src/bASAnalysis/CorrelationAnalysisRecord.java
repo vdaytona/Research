@@ -5,28 +5,41 @@ import java.util.HashMap;
 
 public class CorrelationAnalysisRecord {
 	
-	public static Integer spectralSplit;
-	public ArrayList<String> compositoin;
-	public HashMap<String,String> waveLengthCorrelation;
+	private String testType;
+	private ArrayList<String> compositoin;
+	private ArrayList<ArrayList<String>> dopantWaveLengthMartrix;
+	private ArrayList<Double> correlaitonCoef;
 	
-	public static Integer getSpectralSplit() {
-		return spectralSplit;
-	}
-	public static void setSpectralSplit(Integer spectralSplit) {
-		CorrelationAnalysisRecord.spectralSplit = spectralSplit;
-	}
 	public ArrayList<String> getCompositoin() {
 		return compositoin;
 	}
 	public void setCompositoin(ArrayList<String> compositoin) {
 		this.compositoin = compositoin;
 	}
-	public HashMap<String, String> getWaveLengthCorrelation() {
-		return waveLengthCorrelation;
+	public ArrayList<ArrayList<String>> getWaveLengthCorrelation() {
+		return dopantWaveLengthMartrix;
 	}
 	public void setWaveLengthCorrelation(
-			HashMap<String, String> waveLengthCorrelation) {
-		this.waveLengthCorrelation = waveLengthCorrelation;
+			ArrayList<ArrayList<String>> dopantWaveLengthMartrix) {
+		this.dopantWaveLengthMartrix = dopantWaveLengthMartrix;
+	}
+	public String getTestType() {
+		return testType;
+	}
+	public void setTestType(String testType) {
+		this.testType = testType;
+	}
+	public ArrayList<ArrayList<String>> getDopantWaveLengthMartrix() {
+		return dopantWaveLengthMartrix;
+	}
+	public void setDopantWaveLengthMartrix(ArrayList<ArrayList<String>> dopantWaveLengthMartrix) {
+		this.dopantWaveLengthMartrix = dopantWaveLengthMartrix;
+	}
+	public ArrayList<Double> getCorrelaitonCoef() {
+		return correlaitonCoef;
+	}
+	public void setCorrelaiton(ArrayList<Double> correlaiton) {
+		this.correlaitonCoef = correlaiton;
 	}
 	
 	

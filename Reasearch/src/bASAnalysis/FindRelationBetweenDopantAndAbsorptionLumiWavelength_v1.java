@@ -97,8 +97,8 @@ public class FindRelationBetweenDopantAndAbsorptionLumiWavelength_v1 {
 			record.setNumber(input.get(i).get(numberCol));
 			record.setMaterialType(input.get(i).get(typeCol));
 			for (int j = compositionColStart; j <= compositionColEnd; j++) {
-				record.getCompostoin().put(input.get(0).get(j),
-						input.get(i).get(j));
+				//record.getCompostoin().put(input.get(0).get(j),
+					//	input.get(i).get(j));
 			}
 			record.setTestType(input.get(i).get(testCol));
 			if (record.getTestType().equals("A")) {
@@ -140,12 +140,12 @@ public class FindRelationBetweenDopantAndAbsorptionLumiWavelength_v1 {
 		CorrelationAnalysisRecordList result = new CorrelationAnalysisRecordList();
 
 		// 1. extract all composition combination, and get List
-		ArrayList<String> compositionList = new ArrayList<>(input
-				.getRecordList().get(0).getCompostoin().keySet());
+		//ArrayList<String> compositionList = new ArrayList<>(input
+				//.getRecordList().get(0).getCompostoin().keySet());
 		ArrayList<String> numberList = new ArrayList<>();
-		for (int i = 0; i < compositionList.size(); i++) {
-			numberList.add(i + "");
-		}
+		//for (int i = 0; i < compositionList.size(); i++) {
+			//numberList.add(i + "");
+		//}
 		Integer combinationNumber = 3;
 		ArrayList<ArrayList<String>> combinationList = new ArrayList<>();
 		for (int i = 1; i <= combinationNumber; i++) {
@@ -213,11 +213,13 @@ public class FindRelationBetweenDopantAndAbsorptionLumiWavelength_v1 {
 	public static Boolean ifHasComposition(AbsorptionLumiRecord record,
 			ArrayList<String> oneComposition) {
 		ArrayList<String> recordComposition = new ArrayList<>();
+		/*
 		for (Entry<String, String> obj : record.getCompostoin().entrySet()) {
 			if (!obj.getValue().equals("N/A")) {
 				recordComposition.add(obj.getKey());
 			}
 		}
+		*/
 		Integer sameNumber = 0;
 		for (String obj : oneComposition) {
 			if (recordComposition.contains(obj)) {

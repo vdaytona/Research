@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class AbsorptionLumiRecordList {
 
-	private ArrayList<AbsorptionLumiRecord> recordList;
+	private ArrayList<AbsorptionLumiRecord> recordList = new ArrayList<>();
 
 	public ArrayList<AbsorptionLumiRecord> getRecordList() {
 		return recordList;

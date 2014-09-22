@@ -7,12 +7,13 @@ public class AbsorptionLumiRecord {
 	
 	private String referenceTitle;
 	private String number;
-	private HashMap<String, String> compostoin;
+	private ArrayList<String> compositionList = new ArrayList<>();;
+	private ArrayList<String> compositionContent = new ArrayList<>();;
 	private String materialType;
 	private String testType;
-	private ArrayList<String> absorptionWavelength;
+	private ArrayList<String> absorptionWavelength = new ArrayList<>();;
 	private String pumpWavelength;
-	private HashMap<String, String> luminescenceWavelength; // key: wavelength; value: FWHM 
+	private HashMap<String, String> luminescenceWavelength = new HashMap<>(); // key: wavelength; value: FWHM 
 	
 	public AbsorptionLumiRecord(){
 	}
@@ -31,14 +32,6 @@ public class AbsorptionLumiRecord {
 
 	public void setReferenceTitle(String referenceTitle) {
 		this.referenceTitle = referenceTitle;
-	}
-
-	public HashMap<String, String> getCompostoin() {
-		return compostoin;
-	}
-
-	public void setCompostoin(HashMap<String, String> compostoin) {
-		this.compostoin = compostoin;
 	}
 
 	public String getMaterialType() {
@@ -80,6 +73,22 @@ public class AbsorptionLumiRecord {
 
 	public void setPumpWavelength(String pumpWavelength) {
 		this.pumpWavelength = pumpWavelength;
+	}
+
+	public ArrayList<String> getCompositionList() {
+		return compositionList;
+	}
+
+	public void setCompositionList(ArrayList<String> compositionList) {
+		this.compositionList = compositionList;
+	}
+
+	public ArrayList<String> getCompositionContent() {
+		return compositionContent;
+	}
+
+	public void setCompositionContent(ArrayList<String> compositionContent) {
+		this.compositionContent = compositionContent;
 	}
 
 }
